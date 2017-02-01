@@ -429,6 +429,7 @@ def deserialize(raw):
     d = {}
     start = vds.read_cursor
     d['version'] = vds.read_int32()
+    d['postime'] = vds.read_int32()
     n_vin = vds.read_compact_size()
     d['inputs'] = list(parse_input(vds) for i in xrange(n_vin))
     n_vout = vds.read_compact_size()
@@ -457,6 +458,7 @@ class Transaction:
             self.raw = raw['hex']
         else:
             raise BaseException("cannot initialize transaction", raw)
+        self.postime = 0
         self._inputs = None
         self._outputs = None
         self.locktime = 0
@@ -512,14 +514,16 @@ class Transaction:
         if self._inputs is not None:
             return
         d = deserialize(self.raw)
+        self.postime = d['postime']
         self._inputs = d['inputs']
         self._outputs = [(x['type'], x['address'], x['value']) for x in d['outputs']]
         self.locktime = d['lockTime']
         return d
 
     @classmethod
-    def from_io(klass, inputs, outputs, locktime=0):
+    def from_io(klass, inputs, outputs, locktime=0, postime=0):
         self = klass(None)
+        self.postime = postime
         self._inputs = inputs
         self._outputs = outputs
         self.locktime = locktime
@@ -629,6 +633,7 @@ class Transaction:
         inputs = self.inputs()
         outputs = self.outputs()
         s = int_to_hex(1, 4)                                         # version
+        s += int_to_hex(self.postime, 4)                             # POS timestamp
         s += var_int(len(inputs))                                    # number of inputs
         for i, txin in enumerate(inputs):
             s += self.serialize_input(txin, i, for_sig)
