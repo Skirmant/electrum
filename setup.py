@@ -44,6 +44,7 @@ setup(
         'protobuf',
         'dnspython',
         'jsonrpclib',
+        'ltc_scrypt'
     ],
     packages=[
         'electrum',
