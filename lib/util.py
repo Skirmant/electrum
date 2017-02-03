@@ -35,7 +35,7 @@ import urllib
 import threading
 from i18n import _
 
-base_units = {'BTC':8, 'mBTC':5, 'uBTC':2}
+base_units = {'TRUMP':8, 'mTRUMP':5, 'awoo':2}
 fee_levels = [_('Within 25 blocks'), _('Within 10 blocks'), _('Within 5 blocks'), _('Within 2 blocks'), _('In the next block')]
 
 def normalize_version(v):
@@ -471,7 +471,7 @@ def create_URI(addr, amount, message):
         if type(message) == unicode:
             message = message.encode('utf8')
         query.append('message=%s'%urllib.quote(message))
-    p = urlparse.ParseResult(scheme='bitcoin', netloc='', path=addr, params='', query='&'.join(query), fragment='')
+    p = urlparse.ParseResult(scheme='trumpcoin', netloc='', path=addr, params='', query='&'.join(query), fragment='')
     return urlparse.urlunparse(p)
 
 
