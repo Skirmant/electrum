@@ -42,7 +42,7 @@ ADDRTYPE_P2PKH = 65
 ADDRTYPE_P2SH = 5
 XPRV_HEADER = "0488ade4"
 XPUB_HEADER = "0488b21e"
-HEADERS_URL = ""
+HEADERS_URL = "https://maga.vicenet.org/blockchain_headers"
 
 def set_testnet():
     global ADDRTYPE_P2PKH, ADDRTYPE_P2SH
